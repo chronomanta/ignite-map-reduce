@@ -1,17 +1,11 @@
 package pl.jlabs.example.ignite;
 
 import org.apache.ignite.Ignition;
-import org.apache.ignite.cache.query.QueryCursor;
-import org.apache.ignite.cache.query.ScanQuery;
-import org.apache.ignite.client.ClientCache;
 import org.apache.ignite.client.ClientCompute;
 import org.apache.ignite.client.IgniteClient;
 import org.apache.ignite.configuration.ClientConfiguration;
 
-import javax.cache.Cache;
-import java.util.Set;
-
-public class App
+public class LengthOfLongestWordMapReduce
 {
     public static void main( String[] args ) throws InterruptedException
     {
@@ -22,7 +16,10 @@ public class App
         try (IgniteClient client = Ignition.startClient(cfg)) {
             System.out.println("Starting distributed task");
             ClientCompute compute = client.compute();
-            Integer longestWordLength = compute.<String, Integer>execute("pl.jlabs.example.ignite.task.LongestWordLengthTask", "Ala ma kota przeogromnego kulomiota zaczepiastobulwoidowego");
+            Integer longestWordLength = compute.<String, Integer>execute(
+                    "pl.jlabs.example.ignite.task.LongestWordLengthTask",
+                    "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua"
+            );
             System.out.println("Longest word length is: " + longestWordLength);
         }
         System.out.println("Exiting");

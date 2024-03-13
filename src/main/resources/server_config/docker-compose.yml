@@ -1,0 +1,54 @@
+version: "3"
+
+services:
+  ignite-0:
+    image: apacheignite/ignite
+    expose:
+      - "47500-47509"
+    ports:
+      - "10800:10800"
+      - "8082:8080"
+    networks:
+      - ignite
+    volumes:
+      - "./config.xml:/opt/ignite/custom/config-file.xml"
+      - "./libs:/opt/ignite/apache-ignite/libs/user_libs"
+    environment:
+      - CONFIG_URI=file:///opt/ignite/custom/config-file.xml
+      - OPTION_LIBS=ignite-rest-http
+
+  ignite-1:
+    image: apacheignite/ignite
+    expose:
+      - "47500-47509"
+    ports:
+      - "10801:10800"
+      - "8083:8080"
+    networks:
+      - ignite
+    volumes:
+      - "./config.xml:/opt/ignite/custom/config-file.xml"
+      - "./libs:/opt/ignite/apache-ignite/libs/user_libs"
+    environment:
+      - CONFIG_URI=file:///opt/ignite/custom/config-file.xml
+      - OPTION_LIBS=ignite-rest-http
+
+  ignite-2:
+    image: apacheignite/ignite
+    expose:
+      - "47500-47509"
+    ports:
+      - "10802:10800"
+      - "8084:8080"
+    networks:
+      - ignite
+    volumes:
+      - "./config.xml:/opt/ignite/custom/config-file.xml"
+      - "./libs:/opt/ignite/apache-ignite/libs/user_libs"
+    environment:
+      - CONFIG_URI=file:///opt/ignite/custom/config-file.xml
+      - OPTION_LIBS=ignite-rest-http
+
+networks:
+  ignite:
+    driver: bridge

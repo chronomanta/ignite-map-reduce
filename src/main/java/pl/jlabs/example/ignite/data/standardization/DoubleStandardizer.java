@@ -14,7 +14,7 @@ public class DoubleStandardizer {
         return (value - avg) / stdDeviation;
     }
 
-    public static DoubleStandardizer fromValues(List<Double> values) {
+    public static DoubleStandardizer fromValues(final List<Double> values) {
         final double avg = values.stream().mapToDouble((d) -> d).average().orElse(0.0);
         double variance = 0.0;
         for (double value : values) {

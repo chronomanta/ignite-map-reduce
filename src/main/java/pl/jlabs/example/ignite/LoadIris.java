@@ -17,32 +17,22 @@ public class LoadIris {
     public static void main(String[] argv) {
         System.out.println("Getting iris data");
         final List<Iris> list = IrisCSVUtil.csvResourceAsListIris("iris.csv");
-        System.out.println("\nCreating data standardizer");
         final Map<String, DoubleStandardizer> standardizers = createStandardizerMap(list);
 
-        System.out.println("\nStarting Ignite thin client");
+        System.out.println("Starting Ignite thin client");
         ClientConfiguration cfg = new ClientConfiguration()
                 .setAddresses("192.168.1.16:10800", "192.168.1.16:10801", "192.168.1.16:10802")
                 .setTimeout(5000);
         try (IgniteClient client = Ignition.startClient(cfg)) {
-            System.out.println("\nCaching data standardizer");
+            System.out.println("Uploading data");
             cacheStandardizers(standardizers, client);
-
-            System.out.println("\nStandardizing data");
-            final List<Iris> standarizedList = list.stream()
-                    .peek(LoadIris::printDot)
-                    .map((iris) -> iris.standardizedWith(standardizers))
-                    .collect(Collectors.toList());
-
-            System.out.println("\nCaching iris data");
             final ClientCache<Integer, Iris> irisCache = client.getOrCreateCache("iris_cache");
             irisCache.clear();
-            standarizedList.forEach((iris) -> {
-                irisCache.put(iris.getId(), iris);
-                printDot();
-            });
+            list.stream()
+                    .map((iris) -> iris.standardizedWith(standardizers))
+                    .forEach((iris) -> irisCache.put(iris.getId(), iris));
         }
-        System.out.println("\nData loaded - exiting");
+        System.out.println("Data uploaded");
     }
 
     private static Map<String, DoubleStandardizer> createStandardizerMap(final List<Iris> list) {
@@ -59,13 +49,4 @@ public class LoadIris {
         standardizerCache.clear();
         standardizerCache.putAll(standardizers);
     }
-
-    private static void printDot(Object o) {
-        printDot();
-    }
-    private static void printDot() {
-        System.out.print(".");
-    }
-
-
 }

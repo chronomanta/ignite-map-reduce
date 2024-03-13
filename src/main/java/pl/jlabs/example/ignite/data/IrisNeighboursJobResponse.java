@@ -5,10 +5,11 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 
 @RequiredArgsConstructor
 @Getter
 public class IrisNeighboursJobResponse {
     private final int requestedCount;
-    private final Map<Double, Set<Integer>> distances;
+    private final SortedSet<DistanceIrisId> distances;
 }
