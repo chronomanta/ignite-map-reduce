@@ -19,13 +19,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TestIrisRecognition {
+    private static final String HOST = "localhost";
+
     public static void main(String[] argv) throws InterruptedException {
         System.out.println("Getting test iris data");
         final List<Iris> testList = IrisCSVUtil.csvResourceAsListIris("iris-test.csv");
 
         System.out.println("Starting Ignite thin client");
         ClientConfiguration cfg = new ClientConfiguration()
-                .setAddresses("192.168.1.16:10800", "192.168.1.16:10801", "192.168.1.16:10802")
+                .setAddresses(HOST + ":10800", HOST + ":10801", HOST + ":10802")
                 .setTimeout(5000);
         try (IgniteClient client = Ignition.startClient(cfg)) {
             System.out.println("Getting data standardizer");

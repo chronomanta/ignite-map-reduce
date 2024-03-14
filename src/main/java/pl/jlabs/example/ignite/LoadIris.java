@@ -14,6 +14,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class LoadIris {
+    private static final String HOST = "localhost";
+
     public static void main(String[] argv) {
         System.out.println("Getting iris data");
         final List<Iris> list = IrisCSVUtil.csvResourceAsListIris("iris.csv");
@@ -21,7 +23,7 @@ public class LoadIris {
 
         System.out.println("Starting Ignite thin client");
         ClientConfiguration cfg = new ClientConfiguration()
-                .setAddresses("192.168.1.16:10800", "192.168.1.16:10801", "192.168.1.16:10802")
+                .setAddresses(HOST + ":10800", HOST + ":10801", HOST + ":10802")
                 .setTimeout(5000);
         try (IgniteClient client = Ignition.startClient(cfg)) {
             System.out.println("Uploading data");

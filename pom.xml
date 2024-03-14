@@ -11,7 +11,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <ignite.version>2.14.0</ignite.version>
+        <ignite.version>2.16.0</ignite.version>
         <opencsv.version>5.9</opencsv.version>
         <lombok.version>1.18.30</lombok.version>
     </properties>
